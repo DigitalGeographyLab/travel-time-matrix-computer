@@ -12,12 +12,12 @@ authors = [
 ]
 
 dependencies = [
-    "git+https://github.com/DigitalGeographyLab/car_speed_annotator.git",
-    "git+https://github.com/DigitalGeographyLab/cycling_speed_annotator",
+    "car_speed_annotator @ git+https://github.com/DigitalGeographyLab/car-speed-annotator.git",
+    "cycling_speed_annotator @ git+https://github.com/DigitalGeographyLab/cycling-speed-annotator",
     "dateparser",
     "geopandas",
     "pandas",
-    "git+https://github.com/DigitalGeographyLab/parking_times_calculator",
+    "parking_times_calculator @ git+https://github.com/DigitalGeographyLab/parking-times-calculator",
     "pyaml",
     "pyproj",
     "r5py",
