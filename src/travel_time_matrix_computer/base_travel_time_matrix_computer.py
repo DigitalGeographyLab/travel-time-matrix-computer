@@ -215,46 +215,56 @@ class BaseTravelTimeMatrixComputer:
     @osm_history_file.setter
     def osm_history_file(self, osm_history_file):
         with tempfile.TemporaryDirectory() as temporary_directory:
+            # 1. compute a historical snapshot of the date of our analysis
             osm_snapshot_datetime = f"{self.date:%Y-%m-%dT00:00:00Z}"
             osm_snapshot_filename = (
                 pathlib.Path(temporary_directory)
                 / f"{osm_history_file.stem}_{osm_snapshot_datetime}.osm.pbf"
             )
+
+            # 2. from this historical snapshot, extract only the area covering
+            # the requested extent (or the extent implicitly requested, taken
+            # from the extent of the o/d grid)
             osm_extract_filename = (
                 osm_history_file.parent
-                / f"{osm_history_file.stem}_{osm_snapshot_datetime}_cut-to-extent.osm.pbf"
+                / f"{osm_history_file.stem}_{osm_snapshot_datetime}_{hash(self.extent)}.osm.pbf"
             )
 
-            extent_polygon = pathlib.Path(temporary_directory) / "extent.geojson"
-            geopandas.GeoDataFrame({"geometry": [self.extent]}).to_file(extent_polygon)
+            if not osm_extract_filename.exists():
+                if not osm_snapshot_filename.exists():
+                    # fmt: off
+                    subprocess.run(
+                        [
+                            "/usr/bin/osmium",
+                            "time-filter",
+                            f"{osm_history_file}",
+                            f"{osm_snapshot_datetime}",
+                            "--output", f"{osm_snapshot_filename}",
+                            "--output-format", "osm.pbf",
+                            "--overwrite",
+                            "--no-progress",
+                        ]
+                    )
+                    # fmt: on
 
-            # fmt: off
-            subprocess.run(
-                [
-                    "/usr/bin/osmium",
-                    "time-filter",
-                    f"{osm_history_file}",
-                    f"{osm_snapshot_datetime}",
-                    "--output", f"{osm_snapshot_filename}",
-                    "--output-format", "osm.pbf",
-                    "--overwrite",
-                    "--no-progress",
-                ]
-            )
-            subprocess.run(
-                [
-                    "/usr/bin/osmium",
-                    "extract",
-                    "--strategy", "complete_ways",
-                    "--polygon", f"{extent_polygon}",
-                    f"{osm_snapshot_filename}",
-                    "--output", f"{osm_extract_filename}",
-                    "--output-format", "osm.pbf",
-                    "--overwrite",
-                    "--no-progress",
-                ]
-            )
-            # fmt: on
+                extent_polygon = pathlib.Path(temporary_directory) / "extent.geojson"
+                geopandas.GeoDataFrame({"geometry": [self.extent]}).to_file(extent_polygon)
+
+                # fmt: off
+                subprocess.run(
+                    [
+                        "/usr/bin/osmium",
+                        "extract",
+                        "--strategy", "complete_ways",
+                        "--polygon", f"{extent_polygon}",
+                        f"{osm_snapshot_filename}",
+                        "--output", f"{osm_extract_filename}",
+                        "--output-format", "osm.pbf",
+                        "--overwrite",
+                        "--no-progress",
+                    ]
+                )
+                # fmt: on
 
         self.osm_extract_file = osm_extract_filename
 
