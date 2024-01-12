@@ -8,6 +8,13 @@ Helsinki metropolitan
 area](https://github.com/DigitalGeographyLab/Helsinki-Travel-Time-Matrices).
 
 
+## Installation
+
+```
+pip install git+https://github.com/DigitalGeographyLab/travel-time-matrix-computer.git
+```
+
+
 ## Use
 
 Create a `data` directory, within that a config file according to the template
