@@ -26,6 +26,15 @@ provided in `travel_time_matrix_computer.yml.example`, and pass it to `python
 ## Dependencies
 
 This package depends on
-[car_speed_annotator](https://github.com/DigitalGeographyLab/car-speed-annotator), 
-[cycling_speed_annotator](https://github.com/DigitalGeographyLab/cycling-speed-annotator), and
-[parking_times_calculator](https://github.com/DigitalGeographyLab/parking-times-calculator), as well as all dependencies listed there (i.e., [`osmium`](https://docs.osmcode.org/pyosmium/latest/ref_osmium.html), which is available as a package for most Linux distributions: e.g., `osmium-tool` on Ubuntu and Arch).
+[car_speed_annotator](https://github.com/DigitalGeographyLab/car-speed-annotator),
+[cycling_speed_annotator](https://github.com/DigitalGeographyLab/cycling-speed-annotator),
+and
+[parking_times_calculator](https://github.com/DigitalGeographyLab/parking-times-calculator),
+as well as all dependencies listed there (i.e.,
+[`osmium`](https://docs.osmcode.org/pyosmium/latest/ref_osmium.html), which is
+available as a package for most Linux distributions: e.g., `osmium-tool` on
+Ubuntu and Arch). 
+
+Output data aggregation and packing can be sped up by installing the optional
+dependency `7za` (available as `p7zip` on Ubuntu, Arch, and most likely most
+Linux distributions)
