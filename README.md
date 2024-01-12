@@ -25,12 +25,12 @@ provided in `travel_time_matrix_computer.yml.example`, and pass it to `python
 
 ## Dependencies
 
-This package depends on
+This package depends on [r5py](https://r5py.readthedocs.io/),
 [car_speed_annotator](https://github.com/DigitalGeographyLab/car-speed-annotator),
 [cycling_speed_annotator](https://github.com/DigitalGeographyLab/cycling-speed-annotator),
 and
 [parking_times_calculator](https://github.com/DigitalGeographyLab/parking-times-calculator),
-as well as all dependencies listed there (i.e.,
+as well as all dependencies listed there (i.e., a Java JRE and
 [`osmium`](https://docs.osmcode.org/pyosmium/latest/ref_osmium.html), which is
 available as a package for most Linux distributions: e.g., `osmium-tool` on
 Ubuntu and Arch). 
