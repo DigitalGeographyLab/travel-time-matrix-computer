@@ -29,7 +29,7 @@ class PublicTransportTravelTimeMatrixComputer(
 
         for timeslot_name, timeslot_time in self.DEPARTURE_TIMES.items():
             for variable_name, walking_speed in self.WALKING_SPEEDS.items():
-                column_name = f"pt_{timeslot_name[0]}_{variable_name}"
+                column_name = f"pt_{timeslot_name[0]}_{variable_name[5:]}"
 
                 travel_time_matrix_computer = r5py.TravelTimeMatrixComputer(
                     self.transport_network,
